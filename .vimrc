@@ -26,7 +26,7 @@ set incsearch
 "set highlight 	" conflict with highlight current line
 set ignorecase
 set smartcase
-
+set wildmenu   "  命令行有文件名提示
 " editor settings
 set history=1000
 set nocompatible
@@ -49,6 +49,7 @@ set hlsearch
 set incsearch
 set ignorecase
 " set relativenumber
+set nowrapscan              " 禁止在搜索到文件两端时重新搜索
 
 " Default Indentation
 set autoindent
@@ -61,14 +62,16 @@ set shiftwidth=4    " indent width
 set expandtab       " expand tab to space
 set autochdir
 set hidden
+set directory=~/.vimswp
 
-autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
-autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
-autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+
+"autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+"autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+"autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+autocmd FileType coffee,javascript setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+"autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0
+autocmd FileType sass,scss,css setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
 
 " syntax support
 autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
@@ -252,9 +255,9 @@ autocmd BufReadPost *
 
 " w!! to sudo & write a file
 cmap w!! %!sudo tee<cr>
-nmap html :set filetype=html<cr>
-nmap css :set filetype=css<cr>
-nmap js :set filetype=javascript<cr>
+nmap ,html :set filetype=html<cr>
+nmap ,css :set filetype=css<cr>
+nmap ,js :set filetype=javascript<cr>
 
 " Quickly edit/reload the vimrc file
 nmap ,ev :e $MYVIMRC<CR>
@@ -273,11 +276,16 @@ imap <C-q>  <ESC>"+p
 vmap <C-q>  "+p
 nmap <C-q>  "+p
 map <S-Insert>  "+p
+nmap <space> za
+nmap ,s :w<cr>
+vmap ,s <esc>:w<cr>
+imap ,s <esc>:w<cr>
 
 " for macvim
 if has("gui_running")
     "set go=aAce  " remove toolbar
     "set transparency=30
+    set cursorline
     set guioptions-=m
     set guioptions-=T
     set guioptions-=l
@@ -302,3 +310,28 @@ function! SetColorColumn()
     endif
 endfunction
 " 纵向生成一条直线做参考用 end ===================>
+" 多文件切换，也可使用鼠标双击相应文件名进行切换
+"let g:miniBufExplMapWindowNavVim    = 1
+"let g:miniBufExplMapWindowNavArrows = 1
+"let g:miniBufExplMapCTabSwitchBufs  = 1
+"let g:miniBufExplModSelTarget       = 1
+""解决FileExplorer窗口变小问题
+"let g:miniBufExplForceSyntaxEnable = 1
+"let g:miniBufExplorerMoreThanOne=2
+"let g:miniBufExplCycleArround=1
+
+let g:user_emmet_settings = {
+\  'indentation' : '  ',
+\  'javascript' : {
+\    'aliases' : {
+\      'req' : 'require '
+\    },
+\    'snippets' : {
+\      'lg' : "console.log(\"|\");",
+\      'l' : "console.log(|);",
+\      'vf' : "var | = function(|){\n\t\t|\n};",
+\      'd' : "define(function(require){\n\t\t|\n});",
+\    }
+\  }
+\}
+
